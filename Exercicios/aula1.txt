@@ -1,0 +1,82 @@
+; LISTA 1
+
+;	MOV R0, #65
+;	LDR R1, =0x1B001B00
+;	LDR R2, =0x12345678
+;	LDR R9, =0x20000040 ;endereco
+;	STR R0, [R9] 
+;	STR R1, [R9, #4]!
+;	STR R2, [R9, #4]
+;	
+;	LDR R10, =0xF0001 ;constante
+;	
+;	STR R10, [R9, #8]
+;	
+;	MOV R10, #0xCD
+;	
+;	STRB R10, [R9, #2]
+;	
+;	LDR R9, =0x20000040 ;endereco
+;	
+;	LDR R7, [R9]
+;	
+;	LDR R8, [R9, #8]
+;	
+;	MOV R9, R7
+
+; LISTA 2
+
+;	MOV R9, #2_01010101
+;	
+;	ANDS R0, R9, #0xF0
+;	
+;	MOV R8, #2_11001100
+;	MOV R9, #2_00110011
+;	
+;	ANDS R1, R8, R9
+;	
+;	MOV R8, #2_10000000
+;	MOV R9, #2_00110111
+;	
+;	ORRS R2, R8, R9
+;	
+;	MOV R8, #0xABCD
+;	MOVT R8, #0xABCD
+;	MOV R9, #0xFFFF
+;	MOVT R9, #0x0000
+;	
+;	BICS R3, R8, R9
+
+; LISTA 3
+
+	MOV R0, #705
+	LSRS R1, R0, #5
+	
+	
+	MOV R0, #32067
+	NEG R0, R0
+	LSRS R2, R0, #4
+	
+	MOV R0, #701
+	ASRS R3, R0, #3
+	
+	MOV R0, #32067
+	NEG R0, R0
+	ASRS R4, R0, #5
+	
+	MOV R0, #255
+	LSL R5, R0, #8
+	
+	MOV R0, #58982
+	NEG R0, R0
+	LSL R6, R0, #18
+	
+	LDR R7, =0xFABC1234
+	ROR R8, R7, #10
+	
+	LDR R9, =0x00004321;
+	
+	
+	NOP
+    ALIGN                           ; garante que o fim da seção está alinhada 
+    END                             ; fim do arquivo

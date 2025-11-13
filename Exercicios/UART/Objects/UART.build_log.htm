@@ -1,0 +1,109 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Gabriel Luzzi, utfpr, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.36.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.16
+Assembler:       Armasm.exe V6.16
+Linker/Locator:  ArmLink.exe V6.16
+Library Manager: ArmAr.exe V6.16
+Hex Converter:   FromElf.exe V6.16
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      lmidk-agdi.dll V???
+Dialog DLL:      TCM.DLL V1.53.0.0
+ 
+<h2>Project:</h2>
+C:\Users\gabri\Documents\Faculdade\MICRO\Exercicios\UART\UART.uvprojx
+Project File Date:  11/10/2025
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'Target 1'
+gpio.c(31): warning: empty expression statement has no effect; remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                        (GPIO_PORTJ | GPIO_PORTN | GPIO_PORTK | GPIO_PORTM | GPIO_PORTL | GPIO_PORTA | GPIO_PORTQ | GPIO_PORTP | GPIO_PORTH | GPIO_PORTF) ){};
+                                                                                                                                                             ^
+gpio.c(25): warning: no previous prototype for function 'GPIO_Init' [-Wmissing-prototypes]
+void GPIO_Init(void)
+     ^
+gpio.c(25): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void GPIO_Init(void)
+^
+static 
+gpio.c(141): warning: no previous prototype for function 'PortJ_Input' [-Wmissing-prototypes]
+uint32_t PortJ_Input(void)
+         ^
+gpio.c(141): note: declare 'static' if the function is not intended to be used outside of this translation unit
+uint32_t PortJ_Input(void)
+^
+static 
+gpio.c(151): warning: no previous prototype for function 'PortQ_Output' [-Wmissing-prototypes]
+void PortQ_Output(uint32_t valor)
+     ^
+gpio.c(151): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void PortQ_Output(uint32_t valor)
+^
+static 
+gpio.c(167): warning: no previous prototype for function 'PortA_Output' [-Wmissing-prototypes]
+void PortA_Output(uint32_t valor)
+     ^
+gpio.c(167): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void PortA_Output(uint32_t valor)
+^
+static 
+gpio.c(183): warning: no previous prototype for function 'PortP_Output_Q1' [-Wmissing-prototypes]
+void PortP_Output_Q1(uint32_t valor) {
+     ^
+gpio.c(183): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void PortP_Output_Q1(uint32_t valor) {
+^
+static 
+gpio.c(193): warning: no previous prototype for function 'PortN_Output' [-Wmissing-prototypes]
+void PortN_Output(uint32_t valor)
+     ^
+gpio.c(193): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void PortN_Output(uint32_t valor)
+^
+static 
+gpio.c(206): warning: no previous prototype for function 'UART0_ReadChar' [-Wmissing-prototypes]
+uint8_t UART0_ReadChar(void) {
+        ^
+gpio.c(206): note: declare 'static' if the function is not intended to be used outside of this translation unit
+uint8_t UART0_ReadChar(void) {
+^
+static 
+gpio.c(214): warning: no previous prototype for function 'UART0_WriteChar' [-Wmissing-prototypes]
+void UART0_WriteChar(uint8_t data) {
+     ^
+gpio.c(214): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void UART0_WriteChar(uint8_t data) {
+^
+static 
+9 warnings generated.
+compiling gpio.c...
+linking...
+Program Size: Code=1872 RO-data=16 RW-data=0 ZI-data=1120  
+".\Objects\UART.axf" - 0 Error(s), 9 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.TM4C_DFP.1.1.0.pack
+                Keil.TM4C_DFP.1.1.0
+                Texas Instruments Tiva C Series Device Support and Examples
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\gabri\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
