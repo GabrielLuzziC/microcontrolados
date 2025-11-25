@@ -1,0 +1,148 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Gabriel Luzzi, utfpr, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.36.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.16
+Assembler:       Armasm.exe V6.16
+Linker/Locator:  ArmLink.exe V6.16
+Library Manager: ArmAr.exe V6.16
+Hex Converter:   FromElf.exe V6.16
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      lmidk-agdi.dll V???
+Dialog DLL:      TCM.DLL V1.53.0.0
+ 
+<h2>Project:</h2>
+C:\Users\gabri\Documents\Faculdade\MICRO\Labs\lab3\lab3.uvprojx
+Project File Date:  11/17/2025
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'Target 1'
+gpio.c(49): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIO_PORTE_AHB_DEN_R &= ~(0x10);        //Desabilita digital do PE4
+                             ~~ ^~~~~~~
+gpio.c(68): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        ADC0_ACTSS_R &= ~(0x0008);  // Desativa SS3
+                     ~~ ^~~~~~~~~
+gpio.c(71): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        ADC0_EMUX_R &= ~0xF000;     // Bits 15<96>12 -> 0000       
+                    ~~ ^~~~~~~
+gpio.c(80): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        ADC0_IM_R &= ~(0x0008);     // Desabilita interrup<E7><E3>o por enquanto
+                  ~~ ^~~~~~~~~
+gpio.c(21): warning: no previous prototype for function 'GPIO_Init' [-Wmissing-prototypes]
+void GPIO_Init(void)
+     ^
+gpio.c(21): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void GPIO_Init(void)
+^
+static 
+gpio.c(150): warning: no previous prototype for function 'UART0_ReadChar' [-Wmissing-prototypes]
+uint8_t UART0_ReadChar(void) {
+        ^
+gpio.c(150): note: declare 'static' if the function is not intended to be used outside of this translation unit
+uint8_t UART0_ReadChar(void) {
+^
+static 
+gpio.c(162): warning: no previous prototype for function 'UART0_WriteChar' [-Wmissing-prototypes]
+void UART0_WriteChar(uint8_t data) {
+     ^
+gpio.c(162): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void UART0_WriteChar(uint8_t data) {
+^
+static 
+gpio.c(174): warning: no previous prototype for function 'UART0_CharAvailable' [-Wmissing-prototypes]
+int UART0_CharAvailable(void) {
+    ^
+gpio.c(174): note: declare 'static' if the function is not intended to be used outside of this translation unit
+int UART0_CharAvailable(void) {
+^
+static 
+gpio.c(182): warning: no previous prototype for function 'ADC0_Read_SS3' [-Wmissing-prototypes]
+uint32_t ADC0_Read_SS3(void)
+         ^
+gpio.c(182): note: declare 'static' if the function is not intended to be used outside of this translation unit
+uint32_t ADC0_Read_SS3(void)
+^
+static 
+9 warnings generated.
+compiling gpio.c...
+main.c(28): warning: no previous extern declaration for non-static variable 'estadoSistema' [-Wmissing-variable-declarations]
+state estadoSistema = PARADO;
+      ^
+main.c(28): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+state estadoSistema = PARADO;
+^
+main.c(29): warning: no previous extern declaration for non-static variable 'pwmState' [-Wmissing-variable-declarations]
+uint8_t pwmState = 0;
+        ^
+main.c(29): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint8_t pwmState = 0;
+^
+main.c(30): warning: no previous extern declaration for non-static variable 'duty' [-Wmissing-variable-declarations]
+uint32_t duty = 0;
+         ^
+main.c(30): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint32_t duty = 0;
+^
+main.c(31): warning: no previous extern declaration for non-static variable 'velocidadeAtual' [-Wmissing-variable-declarations]
+int velocidadeAtual = 0;
+    ^
+main.c(31): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+int velocidadeAtual = 0;
+^
+main.c(80): warning: 'return' will never be executed [-Wunreachable-code-return]
+        return 0;
+               ^
+main.c(143): warning: variable 'sentido' may be uninitialized when used here [-Wconditional-uninitialized]
+        if (sentido == ANTI_HORARIO)
+            ^~~~~~~
+main.c(119): note: variable 'sentido' is declared here
+        sentidoRotacao sentido;
+        ^
+main.c(181): warning: '&&' within '||' [-Wlogical-op-parentheses]
+                if (caractere >= '5' && caractere <= '9' || caractere == '0') { 
+                    ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~ ~~
+main.c(181): note: place parentheses around the '&&' expression to silence this warning
+                if (caractere >= '5' && caractere <= '9' || caractere == '0') { 
+                                     ^
+                    (                                   )
+main.c(274): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIO_PORTE_AHB_DATA_R &= ~0x03; // zera PE0 e PE1 ANTES
+                              ~~ ^~~~~
+main.c(289): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+                        GPIO_PORTE_AHB_DATA_R &= ~(1 << 0); // PE0 LOW
+                                              ~~ ^~~~~~~~~
+main.c(292): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+                        GPIO_PORTE_AHB_DATA_R &= ~(1 << 1); // PE1 LOW
+                                              ~~ ^~~~~~~~~
+10 warnings generated.
+compiling main.c...
+linking...
+Program Size: Code=6294 RO-data=214 RW-data=0 ZI-data=1136  
+".\Objects\lab3.axf" - 0 Error(s), 19 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.TM4C_DFP.1.1.0.pack
+                Keil.TM4C_DFP.1.1.0
+                Texas Instruments Tiva C Series Device Support and Examples
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\gabri\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>

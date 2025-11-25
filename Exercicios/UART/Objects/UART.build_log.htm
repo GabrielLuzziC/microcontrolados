@@ -27,70 +27,49 @@ Project File Date:  11/10/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-gpio.c(31): warning: empty expression statement has no effect; remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
-                        (GPIO_PORTJ | GPIO_PORTN | GPIO_PORTK | GPIO_PORTM | GPIO_PORTL | GPIO_PORTA | GPIO_PORTQ | GPIO_PORTP | GPIO_PORTH | GPIO_PORTF) ){};
-                                                                                                                                                             ^
-gpio.c(25): warning: no previous prototype for function 'GPIO_Init' [-Wmissing-prototypes]
+gpio.c(24): warning: empty expression statement has no effect; remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+  while((SYSCTL_PRGPIO_R & (GPIO_PORTN | GPIO_PORTA | GPIO_PORTF) ) != (GPIO_PORTN | GPIO_PORTA | GPIO_PORTF)){};
+                                                                                                                ^
+gpio.c(19): warning: no previous prototype for function 'GPIO_Init' [-Wmissing-prototypes]
 void GPIO_Init(void)
      ^
-gpio.c(25): note: declare 'static' if the function is not intended to be used outside of this translation unit
+gpio.c(19): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void GPIO_Init(void)
 ^
 static 
-gpio.c(141): warning: no previous prototype for function 'PortJ_Input' [-Wmissing-prototypes]
-uint32_t PortJ_Input(void)
-         ^
-gpio.c(141): note: declare 'static' if the function is not intended to be used outside of this translation unit
-uint32_t PortJ_Input(void)
-^
-static 
-gpio.c(151): warning: no previous prototype for function 'PortQ_Output' [-Wmissing-prototypes]
-void PortQ_Output(uint32_t valor)
-     ^
-gpio.c(151): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void PortQ_Output(uint32_t valor)
-^
-static 
-gpio.c(167): warning: no previous prototype for function 'PortA_Output' [-Wmissing-prototypes]
-void PortA_Output(uint32_t valor)
-     ^
-gpio.c(167): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void PortA_Output(uint32_t valor)
-^
-static 
-gpio.c(183): warning: no previous prototype for function 'PortP_Output_Q1' [-Wmissing-prototypes]
-void PortP_Output_Q1(uint32_t valor) {
-     ^
-gpio.c(183): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void PortP_Output_Q1(uint32_t valor) {
-^
-static 
-gpio.c(193): warning: no previous prototype for function 'PortN_Output' [-Wmissing-prototypes]
+gpio.c(77): warning: no previous prototype for function 'PortN_Output' [-Wmissing-prototypes]
 void PortN_Output(uint32_t valor)
      ^
-gpio.c(193): note: declare 'static' if the function is not intended to be used outside of this translation unit
+gpio.c(77): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void PortN_Output(uint32_t valor)
 ^
 static 
-gpio.c(206): warning: no previous prototype for function 'UART0_ReadChar' [-Wmissing-prototypes]
+gpio.c(90): warning: no previous prototype for function 'PortF_Output' [-Wmissing-prototypes]
+void PortF_Output(uint32_t valor)
+     ^
+gpio.c(90): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void PortF_Output(uint32_t valor)
+^
+static 
+gpio.c(103): warning: no previous prototype for function 'UART0_ReadChar' [-Wmissing-prototypes]
 uint8_t UART0_ReadChar(void) {
         ^
-gpio.c(206): note: declare 'static' if the function is not intended to be used outside of this translation unit
+gpio.c(103): note: declare 'static' if the function is not intended to be used outside of this translation unit
 uint8_t UART0_ReadChar(void) {
 ^
 static 
-gpio.c(214): warning: no previous prototype for function 'UART0_WriteChar' [-Wmissing-prototypes]
+gpio.c(111): warning: no previous prototype for function 'UART0_WriteChar' [-Wmissing-prototypes]
 void UART0_WriteChar(uint8_t data) {
      ^
-gpio.c(214): note: declare 'static' if the function is not intended to be used outside of this translation unit
+gpio.c(111): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void UART0_WriteChar(uint8_t data) {
 ^
 static 
-9 warnings generated.
+6 warnings generated.
 compiling gpio.c...
 linking...
-Program Size: Code=1872 RO-data=16 RW-data=0 ZI-data=1120  
-".\Objects\UART.axf" - 0 Error(s), 9 Warning(s).
+Program Size: Code=2032 RO-data=16 RW-data=0 ZI-data=1120  
+".\Objects\UART.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -103,7 +82,7 @@ Package Vendor: Keil
   C:\Users\gabri\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

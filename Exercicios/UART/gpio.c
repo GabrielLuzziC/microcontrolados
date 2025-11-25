@@ -1,206 +1,103 @@
 // gpio.c
 // Desenvolvido para a placa EK-TM4C1294XL
-// Inicializa as portas A, J, H, K, L, M, N, P e Q
+// Inicializa as portas A, N
 // Template disponibilizado do Prof. Guilherme Peron
 
 #include <stdint.h>
 #include "tm4c1294ncpdt.h"
 
-#define GPIO_PORTJ  (0x0100) //bit 8
-#define GPIO_PORTF  (0x0020) //bit 
 #define GPIO_PORTN  (0x1000) //bit 12
-#define GPIO_PORTK  (0x0200) //bit 9
-#define GPIO_PORTM	(0x0800) //bit 11
-#define GPIO_PORTL	(0x0400) //bit 10
+#define GPIO_PORTF  (0x0020) //bit 6
 #define GPIO_PORTA  (0x0001) //bit 0
-#define GPIO_PORTQ  (0x4000) //bit 14
-#define GPIO_PORTP  (0x2000) //bit 13
-#define GPIO_PORTH  (0x0080) //bit 7
+#define UART0 (0x0001)
 
 // -------------------------------------------------------------------------------
 // Função GPIO_Init
-// Inicializa os ports A, J, H, K, L, M, N, P e Q
+// Inicializa os ports A, N
 // Parâmetro de entrada: Não tem
 // Parâmetro de saída: Não tem
 void GPIO_Init(void)
 {
 	//1a. Ativar o clock para a porta setando o bit correspondente no registrador RCGCGPIO
-	SYSCTL_RCGCGPIO_R = (GPIO_PORTJ | GPIO_PORTN | GPIO_PORTK | GPIO_PORTM | GPIO_PORTL | GPIO_PORTA | GPIO_PORTQ | GPIO_PORTP | GPIO_PORTH | GPIO_PORTF);
+	SYSCTL_RCGCGPIO_R = (GPIO_PORTN | GPIO_PORTA | GPIO_PORTF);
 	//1b.   após isso verificar no PRGPIO se a porta está pronta para uso.
-  while((SYSCTL_PRGPIO_R & (GPIO_PORTJ | GPIO_PORTN | GPIO_PORTK | GPIO_PORTM | GPIO_PORTL | GPIO_PORTA | GPIO_PORTQ | GPIO_PORTP | GPIO_PORTH | GPIO_PORTF) ) != 
-			(GPIO_PORTJ | GPIO_PORTN | GPIO_PORTK | GPIO_PORTM | GPIO_PORTL | GPIO_PORTA | GPIO_PORTQ | GPIO_PORTP | GPIO_PORTH | GPIO_PORTF) ){};
+  while((SYSCTL_PRGPIO_R & (GPIO_PORTN | GPIO_PORTA | GPIO_PORTF) ) != (GPIO_PORTN | GPIO_PORTA | GPIO_PORTF)){};
 	
-	// UART
-	SYSCTL_RCGCUART_R |= 0x01;
+	// 2. Limpar o AMSEL para desabilitar a analógica
+	GPIO_PORTN_AMSEL_R = 0x00;
+	GPIO_PORTA_AHB_AMSEL_R = 0x00;
+	GPIO_PORTF_AHB_AMSEL_R = 0x00;
+		
+	// 3. Limpar PCTL para selecionar o GPIO
+	GPIO_PORTN_PCTL_R = 0x00;
+	GPIO_PORTA_AHB_PCTL_R = 0x11;
+	GPIO_PORTF_AHB_PCTL_R = 0x00;
+
+	// 4. DIR para 0 se for entrada, 1 se for saída
+	GPIO_PORTN_DIR_R = 0x03; 		 // BIT0 | BIT1
+	GPIO_PORTF_AHB_DIR_R = 0x11;  // bit0 e bit4
+					
+	// 5. Limpar os bits AFSEL para 0 para selecionar GPIO sem função alternativa	
+	GPIO_PORTN_AFSEL_R = 0x00; 
+	GPIO_PORTA_AHB_AFSEL_R = 0x03;
+	GPIO_PORTF_AHB_AFSEL_R = 0x00;
+		
+	// 6. Setar os bits de DEN para habilitar I/O digital	
+	GPIO_PORTN_DEN_R = 0x03;
+	GPIO_PORTA_AHB_DEN_R = 0x03;
+	GPIO_PORTF_AHB_DEN_R = 0x11;
+		
+	// 7. Habilitar resistor de pull-up interno, setar PUR para 1
+	
+	/* ------ UART ------ */
+	
+	SYSCTL_RCGCUART_R |= UART0;
 				
-	while ((SYSCTL_PRUART_R & (1 << 0)) == 0) {
+	while ((SYSCTL_PRUART_R & (UART0)) != UART0) {
     // Espera até a UART0 estar pronta
 	}
 	
 	// Desativa o UARTEN
-	UART0_CTL_R &= 0x00;
+	UART0_CTL_R &= 0x0;
 
-	//float brd = 16000000.0 / (16.0 * 115200.0);  // = 8.6805
-	UART0_IBRD_R = 8;
-	UART0_FBRD_R = 44;   // (0.6805 * 64) + 0.5 = 44
+	// BRD = 80000000/(16* 57600) = 86,8055
+	UART0_IBRD_R = 86;
+	UART0_FBRD_R = 51;   // (0.8055 * 64) = 51
 	
-	// ATIVA 8 bits e habilita a Fila
+	// ATIVA 8 bits e habilita a Fila & 1 stopbit
 	UART0_LCRH_R = 0x70;   //	0111 0000
 	
 	// Usa o clock principal do sistema
 	UART0_CC_R = 0x00;
 	
-	// Ativa o RX e TX
+	// Ativa o RX, TX e UARTEN
 	UART0_CTL_R |= 0x0301;
-	
-	
-	// 2. Limpar o AMSEL para desabilitar a analógica
-	GPIO_PORTJ_AHB_AMSEL_R = 0x00;
-	GPIO_PORTN_AMSEL_R = 0x00;
-	GPIO_PORTK_AMSEL_R = 0x00;
-	GPIO_PORTM_AMSEL_R = 0x00;
-	GPIO_PORTL_AMSEL_R = 0x00;
-	GPIO_PORTQ_AMSEL_R = 0x00;
-	GPIO_PORTP_AMSEL_R = 0x00;
-	GPIO_PORTF_AHB_AMSEL_R = 0x00;
-	GPIO_PORTA_AHB_AMSEL_R = 0x00;
-	GPIO_PORTH_AHB_AMSEL_R = 0x00;
-		
-	// 3. Limpar PCTL para selecionar o GPIO
-	GPIO_PORTJ_AHB_PCTL_R = 0x00;
-	GPIO_PORTN_PCTL_R = 0x00;
-	GPIO_PORTK_PCTL_R = 0x00;
-	GPIO_PORTM_PCTL_R = 0x00;
-	GPIO_PORTL_PCTL_R = 0x00;
-	GPIO_PORTQ_PCTL_R = 0x00;
-	GPIO_PORTP_PCTL_R = 0x00;
-	GPIO_PORTA_AHB_PCTL_R = 0x13;	
-	GPIO_PORTH_AHB_PCTL_R = 0x00;
-
-	// 4. DIR para 0 se for entrada, 1 se for saída
-	GPIO_PORTJ_AHB_DIR_R = 0x00;
-	GPIO_PORTN_DIR_R = 0x03; 		 // BIT0 | BIT1
-	
-	/* --- Motor --- */
-	GPIO_PORTH_AHB_DIR_R = 0x0F; // PH0-PH3
-	
-	/* --- LEDs PAT --- */
-	//GPIO_PORTA_AHB_DIR_R = 0xF0; // PA4-PA7
-	GPIO_PORTQ_DIR_R = 0x0F;		 // PQ0-PQ3
-	GPIO_PORTP_DIR_R = 0x20;		 // PP5
-				
-	/* --- LCD --- */
-	GPIO_PORTK_DIR_R = 0xFF;		 // PK0-PK7
-	GPIO_PORTM_DIR_R = 0x07; 		 // PM0, PM1, PM2
-				
-	/* --- Teclado Matricial --- */
-	GPIO_PORTL_DIR_R = 0x00; 		 // PL0, PL1, PL2, PL3  (Entrada = 0)
-	GPIO_PORTM_DIR_R |= 0x00; 	 // PM4, PM5, PM6, PM7 (Entrada Alta Impedância = 0)	
-		
-	// 5. Limpar os bits AFSEL para 0 para selecionar GPIO sem função alternativa	
-	GPIO_PORTJ_AHB_AFSEL_R = 0x00;
-	GPIO_PORTN_AFSEL_R = 0x00; 
-	GPIO_PORTK_AFSEL_R = 0x00; 
-	GPIO_PORTM_AFSEL_R = 0x00; 
-	GPIO_PORTL_AFSEL_R = 0x00;
-	GPIO_PORTQ_AFSEL_R = 0x00;
-	GPIO_PORTP_AFSEL_R = 0x00;
-	GPIO_PORTA_AHB_AFSEL_R = 0x03;
-	GPIO_PORTH_AHB_AFSEL_R = 0x00;
-		
-	// 6. Setar os bits de DEN para habilitar I/O digital	
-	GPIO_PORTJ_AHB_DEN_R = 0x03;  //Bit0 e bit1
-	GPIO_PORTN_DEN_R = 0x03; 		  //Bit0 e bit1
-	
-	/* --- Motor --- */
-	GPIO_PORTH_AHB_DEN_R = 0x0F;  // PH0-PH3
-	
-	/* --- UART --- */
-	GPIO_PORTA_AHB_DEN_R = 0x03;  // 0 e 1
-	GPIO_PORTQ_DEN_R = 0x0F;		  // PQ0-PQ3
-	GPIO_PORTP_DEN_R = 0x20;		  // PP5
-	
-	/* --- LCD --- */
-	GPIO_PORTK_DEN_R = 0xFF;			// PK0-PK7 (LCD data)
-	GPIO_PORTM_DEN_R = 0x07;			// PM0-PM2 (LCD control)
-	
-	/* --- Teclado Matricial --- */
-	GPIO_PORTL_DEN_R = 0x0F;			// PL0-PL3
-	GPIO_PORTM_DEN_R |= 0xF0;			// PM4-PM7
-	
-	// 7. Habilitar resistor de pull-up interno, setar PUR para 1
-	GPIO_PORTJ_AHB_PUR_R = 0x03;  //Bit0 e bit1	
-	GPIO_PORTL_PUR_R = 0x0F;			// PL0-PL3
 }	
-
-// -------------------------------------------------------------------------------
-// Função PortJ_Input
-// Lê os valores de entrada do port J
-// Parâmetro de entrada: Não tem
-// Parâmetro de saída: o valor da leitura do port
-uint32_t PortJ_Input(void)
-{
-	return GPIO_PORTJ_AHB_DATA_R;
-}
-
-// -------------------------------------------------------------------------------
-// Função PortQ_Output
-// Escreve valores no port Q
-// Parâmetro de entrada: Valor a ser escrito
-// Parâmetro de saída: Não tem
-void PortQ_Output(uint32_t valor)
-{
-	uint32_t temp;
-	//vamos zerar somente os bits menos significativos
-	//para uma escrita amigável nos bits 0 - 3
-	temp = GPIO_PORTQ_DATA_R & 0xF0;
-	//agora vamos fazer o OR com o valor recebido na função
-	temp = temp | valor;
-	GPIO_PORTQ_DATA_R = temp;
-}
-
-// -------------------------------------------------------------------------------
-// Função PortA_Output
-// Escreve valores no port A
-// Parâmetro de entrada: Valor a ser escrito
-// Parâmetro de saída: Não tem
-void PortA_Output(uint32_t valor)
-{
-	uint32_t temp;
-	//vamos zerar somente os bits mais significativos
-	//para uma escrita amigável nos bits 4 - 7
-	temp = GPIO_PORTA_AHB_DATA_R & 0x0F;
-	//agora vamos fazer o OR com o valor recebido na função
-	temp = temp | valor;
-	GPIO_PORTA_AHB_DATA_R = temp;
-}
-
-// -------------------------------------------------------------------------------
-// Função PortP_Output_Q1
-// Liga ou desliga transistor Q1 na PAT
-// Parâmetro de entrada: Valor a ser escrito
-// Parâmetro de saída: Não tem
-void PortP_Output_Q1(uint32_t valor) {
-	uint32_t temp;
-	//vamos zerar somente o bit 5
-	//para uma escrita amigável no bit 5
-	temp = GPIO_PORTP_DATA_R & 0xDF;
-	//agora vamos fazer o OR com o valor recebido na função
-	temp = temp | valor;
-	GPIO_PORTP_DATA_R = temp;
-}
 
 void PortN_Output(uint32_t valor)
 {
-    uint32_t temp;
-    // Zera apenas os bits 0 e 1 (LEDs)
-    temp = GPIO_PORTN_DATA_R & ~0x03U;  // limpa bits 0 e 1 (0b11)
-    
-    // Faz OR com o valor desejado (mantém os outros bits)
-    temp |= (valor & 0x03);  // garante que só usa bits 0 e 1
-    
-    // Escreve no registrador
-    GPIO_PORTN_DATA_R = temp;
+	uint32_t temp;
+	// Zera apenas os bits 0 e 1 (LEDs)
+	temp = GPIO_PORTN_DATA_R & ~0x03U;  // limpa bits 0 e 1 (0b11)
+
+	// Faz OR com o valor desejado (mantém os outros bits)
+	temp |= (valor & 0x03);  // garante que só usa bits 0 e 1
+
+	// Escreve no registrador
+	GPIO_PORTN_DATA_R = temp;
+}
+
+void PortF_Output(uint32_t valor)
+{
+	uint32_t temp;
+	// Zera apenas os bits 0 e 1 (LEDs)
+	temp = GPIO_PORTF_AHB_DATA_R & ~0x11U;  // limpa bits 4 e 0 (0b11)
+
+	// Faz OR com o valor desejado (mantém os outros bits)
+	temp |= (valor & 0x11);  // garante que só usa bits 0 e 1
+
+	// Escreve no registrador
+	GPIO_PORTF_AHB_DATA_R = temp;
 }
 
 uint8_t UART0_ReadChar(void) {
